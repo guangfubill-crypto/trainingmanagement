@@ -8,7 +8,13 @@
 - 后端：Python、FastAPI、SQLAlchemy、SQLite；RESTful API。
 - 认证：Argon2 密码哈希、HttpOnly Cookie、服务端会话、实时角色授权。
 
-## 快速开始
+## 普通用户安装
+
+Windows 桌面版提供安装包和免安装 zip，首次打开自行设置管理员，无需配置开发环境。详见 [桌面安装与备份](docs/desktop.md)。构建后的文件位于 `release/`。
+
+Web/云端版本继续保留，详见 [Docker 与云端部署](docs/cloud.md)。桌面和云端各自保存数据，暂不自动同步。
+
+## 开发环境快速开始
 
 要求 Node.js 22.12+、Python 3.11+。从项目根目录打开两个 PowerShell 终端。
 

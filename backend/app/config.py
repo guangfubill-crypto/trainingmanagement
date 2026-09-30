@@ -11,6 +11,9 @@ class Settings(BaseSettings):
         env_file=BACKEND_DIR / ".env", env_file_encoding="utf-8", extra="ignore"
     )
     app_name: str = "training"
+    desktop_mode: bool = False
+    desktop_key: str = ""
+    static_dir: str = ""
     allowed_origins: list[str] = ["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8000", "http://localhost:8000"]
     cookie_secure: bool = False
     session_seconds: int = Field(default=8 * 60 * 60, gt=0)

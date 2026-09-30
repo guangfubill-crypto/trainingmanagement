@@ -1,0 +1,15 @@
+services:
+  training:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    ports:
+      - "127.0.0.1:8080:8000"
+    environment:
+      ALLOWED_ORIGINS: '${ALLOWED_ORIGINS:-["http://localhost:8080","http://127.0.0.1:8080"]}'
+      COOKIE_SECURE: "${COOKIE_SECURE:-false}"
+    volumes:
+      - training-data:/data
+    restart: unless-stopped
+volumes:
+  training-data:

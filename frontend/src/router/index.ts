@@ -1,4 +1,5 @@
 import axios from "axios";
+import { api } from "../api/client";
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import WorkspaceLayout from "../layouts/WorkspaceLayout.vue";
@@ -8,6 +9,7 @@ const ResourceView = () => import("../views/ResourceView.vue");
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
+    { path: "/setup", name: "setup", component: () => import("../views/SetupView.vue") },
     { path: "/login", name: "login", component: LoginView },
     {
       path: "/",
@@ -39,6 +41,10 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
+  const { data: runtime } = await api.get<{ mode: string; setup_required: boolean }>("/runtime").catch(() => ({ data: { mode: "web", setup_required: false } }));
+  if (runtime.setup_required && to.name !== "setup") return "/setup";
+  if (!runtime.setup_required && to.name === "setup") return "/login";
+  if (to.name === "setup") return true;
   const auth = useAuthStore();
   if (to.name === "login") return true;
   try {

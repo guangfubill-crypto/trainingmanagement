@@ -1,0 +1,58 @@
+{
+  "name": "training-desktop",
+  "version": "1.0.0",
+  "description": "培训管理系统本地桌面版",
+  "author": "guangfubill-crypto",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis zip --x64 --publish never"
+  },
+  "build": {
+    "appId": "com.trainingmanagement.desktop",
+    "productName": "培训管理系统",
+    "directories": {
+      "output": "../release"
+    },
+    "files": [
+      "main.cjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../build/backend/training-server",
+        "to": "backend"
+      },
+      {
+        "from": "../frontend/dist",
+        "to": "web"
+      }
+    ],
+    "win": {
+      "executableName": "TrainingManagement",
+      "signAndEditExecutable": false,
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": false,
+      "artifactName": "TrainingManagement-Setup-${version}.${ext}"
+    },
+    "artifactName": "TrainingManagement-${version}-${arch}.${ext}",
+    "electronDist": "node_modules/electron/dist"
+  },
+  "devDependencies": {
+    "electron": "44.5.0",
+    "electron-builder": "26.15.3"
+  }
+}
