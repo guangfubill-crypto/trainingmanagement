@@ -16,4 +16,11 @@
 - 初次本地浏览器验收发现 preview 默认使用正式模式的根路径，与演示子路径不符，导致资源404；已将预览命令固定为 `--mode demo`，重新验收通过。
 - 角色选择输入被 Element Plus 占位层覆盖，测试改用标准键盘操作；分页使用组件自身的下一页控件。未强制点击遮挡层。
 
-演示是浏览器本地模拟，不验证真实服务端认证或多人同步；这些由正式后端测试覆盖。发布状态与入口需等待 Actions 部署完成后确认。
+## 发布结果
+
+- 源码提交：`a1fdaccf1c884653cf7497ac68e49781bd9a6beb`。
+- [GitHub Actions 39385263720](https://github.com/guangfubill-crypto/trainingmanagement/actions/runs/39385263720)：build 52秒、deploy 10秒，全部成功；CI也通过4组 Chromium 演示验收。
+- [已发布入口](https://guangfubill-crypto.github.io/trainingmanagement/)：线上浏览器已确认显示角色选择页；以管理员进入后，课程、学员、用户导航与12门示例课程正常显示。
+- 仓库首页演示链接及 homepage 已指向以上入口。
+
+演示是浏览器本地模拟，不验证真实服务端认证或多人同步；这些由正式后端测试覆盖。Actions出现官方action内部Node运行时和ubuntu镜像迁移提示，未影响本次成功构建、验收与部署。
