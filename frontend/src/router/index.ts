@@ -1,13 +1,14 @@
 import axios from "axios";
 import { api } from "../api/client";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
+import { isDemo } from "../demo-mode";
 import { useAuthStore } from "../stores/auth";
 import WorkspaceLayout from "../layouts/WorkspaceLayout.vue";
 const LoginView = () => import("../views/LoginView.vue");
 const ResourceView = () => import("../views/ResourceView.vue");
 
 export const router = createRouter({
-  history: createWebHistory(),
+  history: isDemo ? createWebHashHistory(import.meta.env.BASE_URL) : createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: "/setup", name: "setup", component: () => import("../views/SetupView.vue") },
     { path: "/login", name: "login", component: LoginView },

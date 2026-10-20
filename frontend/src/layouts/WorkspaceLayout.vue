@@ -4,6 +4,8 @@ import { useRoute, useRouter } from "vue-router";
 import { ElButton, ElMessage } from "element-plus";
 import { useAuthStore } from "../stores/auth";
 import { errorMessage } from "../api/client";
+import { isDemo } from "../demo-mode";
+import DemoNotice from "../components/DemoNotice.vue";
 const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
@@ -62,6 +64,7 @@ async function logout() {
           >工作空间 <span class="breadcrumb">/ {{ title }}</span></span
         ><ElButton text :loading="leaving" @click="logout">退出登录</ElButton>
       </header>
+      <DemoNotice v-if="isDemo" />
       <main class="business-main"><RouterView :key="route.path" /></main>
     </div>
   </div>

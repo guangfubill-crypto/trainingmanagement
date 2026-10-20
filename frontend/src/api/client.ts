@@ -6,6 +6,14 @@ export const api = axios.create({
   withCredentials: true,
 });
 
+// This build-time branch is removed from the normal Web/desktop bundle.
+if (import.meta.env.VITE_DEMO_MODE === "true") {
+  api.defaults.adapter = async (config) => {
+    const { demoAdapter } = await import("../demo/adapter");
+    return demoAdapter(config);
+  };
+}
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {

@@ -24,6 +24,7 @@ import { api, errorMessage } from "../api/client";
 import { useAuthStore } from "../stores/auth";
 import { resources } from "../resources";
 import type { DataRow, Page, Resource } from "../types";
+import { isDemo } from "../demo-mode";
 
 const props = defineProps<{ resource: Resource }>();
 const narrowScreen = window.matchMedia("(max-width: 700px)");
@@ -58,7 +59,7 @@ const password = ref("");
 const passwordError = ref("");
 let requestId = 0;
 const visibleFields = computed(() =>
-  config.value.fields.filter((f) => !(editId.value !== null && f.createOnly)),
+  config.value.fields.filter((f) => !(editId.value !== null && f.createOnly) && !(isDemo && f.type === "password")),
 );
 const columns = computed(() =>
   config.value.fields.filter((f) => f.type !== "textarea" && !f.createOnly),
@@ -351,7 +352,7 @@ onMounted(load);
               ><ElButton link type="primary" @click="edit(row as DataRow)"
                 >编辑</ElButton
               ><ElButton
-                v-if="resource === 'users'"
+                v-if="resource === 'users' && !isDemo"
                 link
                 type="primary"
                 @click="resetDialog(row as DataRow)"

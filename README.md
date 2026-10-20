@@ -2,6 +2,12 @@
 
 基于 OpenSpec 开发的培训管理系统。支持课程、学员、用户增删改查，管理员拥有全部功能，普通用户只能查看课程和学员。
 
+## 在线演示
+
+[打开培训管理系统演示](https://guangfubill-crypto.github.io/trainingmanagement/)
+
+无需安装，选择管理员或普通用户即可体验现有界面。演示使用虚构数据，修改只保存在当前浏览器，可一键重置；不使用真实密码。完整使用与发布方式见 [在线演示说明](docs/demo.md)。正式 Web 和桌面版仍使用原有后端及数据库。
+
 ## 技术栈
 
 - 前端：Vite、Vue 3、TypeScript、Element Plus、Axios、Pinia、Vue Router。
@@ -86,4 +92,4 @@ npm run test:e2e
 
 公开仓库：https://github.com/guangfubill-crypto/trainingmanagement
 
-首版面向本地或小规模单实例使用。生产部署需要 HTTPS、正确的可信来源配置及 /api 反向代理；本仓库不包含自动公网部署。
+正式版面向本地或小规模单实例使用。生产部署需要 HTTPS、正确的可信来源配置及 /api 反向代理；GitHub Pages 自动发布的是独立静态演示，不包含真实后端。

@@ -22,8 +22,12 @@ export const useAuthStore = defineStore("auth", () => {
     await api.post("/auth/logout");
     user.value = null;
   }
+  async function enterDemo(role: "admin" | "user") {
+    const { data } = await api.post<User>("/auth/demo", { role });
+    user.value = data;
+  }
   function clear() {
     user.value = null;
   }
-  return { user, isAdmin, refresh, login, logout, clear };
+  return { user, isAdmin, refresh, login, logout, clear, enterDemo };
 });

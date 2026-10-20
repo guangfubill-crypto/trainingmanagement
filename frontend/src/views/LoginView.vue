@@ -4,6 +4,8 @@ import { useRouter } from "vue-router";
 import { ElAlert, ElButton, ElForm, ElFormItem, ElInput } from "element-plus";
 import { useAuthStore } from "../stores/auth";
 import { errorMessage } from "../api/client";
+import { isDemo } from "../demo-mode";
+import DemoNotice from "../components/DemoNotice.vue";
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -11,6 +13,16 @@ const username = ref("");
 const password = ref("");
 const loading = ref(false);
 const error = ref("");
+const homeHref = import.meta.env.BASE_URL + (isDemo ? "#/login" : "");
+async function enterDemo(role: "admin" | "user") {
+  loading.value = true;
+  error.value = "";
+  try {
+    await auth.enterDemo(role);
+    await router.replace("/courses");
+  } catch (e) { error.value = errorMessage(e); }
+  finally { loading.value = false; }
+}
 async function submit() {
   error.value = "";
   if (!username.value.trim() || !password.value) {
@@ -32,7 +44,7 @@ async function submit() {
 <template>
   <main class="login-page">
     <section class="login-story">
-      <a class="brand" href="/"
+      <a class="brand" :href="homeHref"
         ><span class="brand-mark">t.</span
         ><span>training<small>培训管理系统</small></span></a
       >
@@ -51,8 +63,9 @@ async function submit() {
     <section class="login-form-panel">
       <div class="login-form">
         <p class="eyebrow">WELCOME BACK</p>
-        <h2>登录工作空间</h2>
-        <p class="muted">使用管理员为你分配的账号登录。</p>
+        <h2>{{ isDemo ? "体验培训管理系统" : "登录工作空间" }}</h2>
+        <p class="muted">{{ isDemo ? "选择一个角色，直接体验课程、学员与用户管理。" : "使用管理员为你分配的账号登录。" }}</p>
+        <DemoNotice v-if="isDemo" />
         <ElAlert
           v-if="error"
           :title="error"
@@ -60,7 +73,13 @@ async function submit() {
           :closable="false"
           show-icon
           class="form-alert"
-        /><ElForm label-position="top" @submit.prevent="submit"
+        />
+        <div v-if="isDemo" class="demo-entries">
+          <ElButton type="primary" size="large" :loading="loading" @click="enterDemo('admin')">以管理员体验</ElButton>
+          <ElButton size="large" :disabled="loading" @click="enterDemo('user')">以普通用户体验</ElButton>
+          <p class="muted">管理员可增删改查；普通用户可查看课程和学员。</p>
+        </div>
+        <ElForm v-else label-position="top" @submit.prevent="submit"
           ><ElFormItem label="用户名"
             ><ElInput
               v-model="username"
@@ -88,7 +107,7 @@ async function submit() {
             >登录</ElButton
           ></ElForm
         >
-        <p class="login-help">没有账号或忘记密码？请联系管理员。</p>
+        <p v-if="!isDemo" class="login-help">没有账号或忘记密码？请联系管理员。</p>
       </div>
       <p class="login-footer">training · 培训管理系统</p>
     </section>
